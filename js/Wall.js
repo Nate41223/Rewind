@@ -1,4 +1,4 @@
-function Death(name, gridx, gridy) {
+function Wall(name, gridx, gridy) {
     this.sprite = null;
     this.width = 50;
     this.height = 50;
@@ -6,7 +6,7 @@ function Death(name, gridx, gridy) {
     this.y = gridy * 50 + 50/2;
     
     this.init = function() {
-        this.sprite = new PIXI.Sprite.fromImage("imgs/cactus-01.png");
+        this.sprite = new PIXI.Sprite.fromImage("imgs/Wall.png");
         this.sprite.height = this.height;
         this.sprite.width = this.width;
         this.sprite.x = this.x;

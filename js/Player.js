@@ -9,7 +9,7 @@ function Player() {
     this.vx = 0;
     this.vy = 0;
     this.vMax = 10;
-    this.vScaler = 5;
+    this.vScaler = .3;
     this.speed = 2;
     this.isGrounded = false;
     this.state = "idle";
@@ -32,7 +32,8 @@ function Player() {
         switch (this.state) {
                 case "idle":
                     
-                    this.decayPlayerSpeed(dt);
+                    this.decayPlayerSpeedX(dt);
+                    this.decayPlayerSpeedY(dt);
                 
                     if(keys.a.isDown || keys.d.isDown || keys.w.isDown || keys.s.isDown) this.state = STATE_WALK;
                     this.applyMovement(dt);
@@ -55,6 +56,8 @@ function Player() {
                     if(this.vy <- this.vMax) this.vy =- this.vMax;
                 
                     if(!keys.a.isDown && !keys.d.isDown && !keys.w.isDown && !keys.s.isDown) this.state = STATE_IDLE;
+                    if(!keys.a.isDown && !keys.d.isDown) this.decayPlayerSpeedX(dt);
+                    if(!keys.w.isDown && !keys.s.isDown) this.decayPlayerSpeedY(dt);
                     this.applyMovement(dt);
                     this.checkPlayerCollision(dt);
                     break;
@@ -66,8 +69,8 @@ function Player() {
         console.log(this.state);
     };
     this.checkPlayerCollision = function(dt) {
-        for(var i = game.floor.length - 1; i >= 0; i--) {
-            var cr = game.isColliding(this.sprite,game.floor[i].sprite);
+        for(var i = game.wall.length - 1; i >= 0; i--) {
+            var cr = game.isColliding(this.sprite,game.wall[i].sprite);
             if(cr.isColliding == true) {
                 this.handleFloorCollision(cr);
             };
@@ -97,18 +100,17 @@ function Player() {
         else if (distX > distY) this.y = potentialY;
         //this.y -= this.vy * dt;
         //this.x -= this.vx * dt;
-        
         this.sprite.x = this.x;
         this.sprite.y = this.y;
     };
     this.applyMovement = function(dt) {
         this.x += this.vx * dt;
         this.y += this.vy * dt;
-        
+
         this.sprite.x = this.x;
         this.sprite.y = this.y;
     };
-    this.decayPlayerSpeed = function(dt) {
+    this.decayPlayerSpeedX = function(dt) {
         if(this.vx > 0) {
             this.vx -= this.vScaler*dt;
             if(this.vx < 0) this.vx = 0;
@@ -117,6 +119,8 @@ function Player() {
             this.vx += this.vScaler*dt;
             if(this.vx > 0) this.vx = 0;
         }
+    };
+    this.decayPlayerSpeedY = function(dt) {
         if(this.vy > 0) {
             this.vy -= this.vScaler*dt;
             if(this.vy < 0) this.vy = 0;
