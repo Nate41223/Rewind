@@ -36,6 +36,7 @@ function Player() {
                 
                     if(keys.a.isDown || keys.d.isDown || keys.w.isDown || keys.s.isDown) this.state = STATE_WALK;
                     this.applyMovement(dt);
+                    this.checkPlayerCollision(dt);
                     break;
                 case "walk":
                     var moveH = 0;
@@ -52,13 +53,13 @@ function Player() {
                     if(this.vx <- this.vMax) this.vx =- this.vMax;
                     if(this.vy > this.vMax) this.vy = this.vMax;
                     if(this.vy <- this.vMax) this.vy =- this.vMax;
-                    console.log(this.vy);
                 
                     if(!keys.a.isDown && !keys.d.isDown && !keys.w.isDown && !keys.s.isDown) this.state = STATE_IDLE;
                     this.applyMovement(dt);
+                    this.checkPlayerCollision(dt);
                     break;
                 case "dead":
-                    this.state = STATE_JUMP;
+                    this.state = STATE_IDLE;
                     break;
         };
         
@@ -68,10 +69,7 @@ function Player() {
         for(var i = game.floor.length - 1; i >= 0; i--) {
             var cr = game.isColliding(this.sprite,game.floor[i].sprite);
             if(cr.isColliding == true) {
-                this.state = STATE_IDLE;
-                this.revertMovement(dt);
-                this.vy = 0;
-                
+                this.handleFloorCollision(cr);
             };
         };
         for(var i = game.death.length - 1; i >= 0; i--) {
@@ -84,6 +82,24 @@ function Player() {
                 this.vy = 0;
             };
         };
+    };
+    this.handleFloorCollision = function(cr) {
+        var potentialY = 0;
+        var potentialX = 0;
+        if(cr.aBounds.y <= cr.bBounds.y && cr.aBounds.y + cr.aBounds.height >= cr.bBounds.y) potentialY = cr.bBounds.y - cr.aBounds.height/2; //above
+        if(cr.aBounds.y >= cr.bBounds.y && cr.aBounds.y <= cr.bBounds.y + cr.bBounds.height) potentialY = cr.bBounds.y + cr.bBounds.height + cr.aBounds.height/2; //below
+        if(cr.aBounds.x <= cr.bBounds.x && cr.aBounds.x + cr.aBounds.width >= cr.bBounds.x) potentialX = cr.bBounds.x - cr.aBounds.width/2; //left
+        if(cr.aBounds.x >= cr.bBounds.x && cr.aBounds.x <= cr.bBounds.x + cr.bBounds.width) potentialX = cr.bBounds.x + cr.bBounds.width + cr.aBounds.width/2;//right
+        
+        var distY = Math.abs(potentialY - this.y);
+        var distX = Math.abs(potentialX - this.x);
+        if (distX < distY) this.x = potentialX;
+        else if (distX > distY) this.y = potentialY;
+        //this.y -= this.vy * dt;
+        //this.x -= this.vx * dt;
+        
+        this.sprite.x = this.x;
+        this.sprite.y = this.y;
     };
     this.applyMovement = function(dt) {
         this.x += this.vx * dt;
