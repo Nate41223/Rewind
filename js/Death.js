@@ -6,7 +6,7 @@ function Death(name, gridx, gridy) {
     this.y = gridy * 50 + 50/2;
     
     this.init = function() {
-        this.sprite = new PIXI.Sprite.fromImage("imgs/Floor.png");
+        this.sprite = new PIXI.Sprite.fromImage("imgs/Death.png");
         this.sprite.height = this.height;
         this.sprite.width = this.width;
         this.sprite.x = this.x;
