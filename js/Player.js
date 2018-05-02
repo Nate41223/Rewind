@@ -4,11 +4,11 @@ function Player() {
     this.y = game.height()/2;
     this.startX = game.width()/2;
     this.startY = game.height()/2;
-    this.width = 50;
-    this.height = 50;
+    this.width = 30;
+    this.height = 30;
     this.vx = 0;
     this.vy = 0;
-    this.vMax = 10;
+    this.vMax = 8;
     this.vScaler = .3;
     this.speed = 2;
     this.isGrounded = false;
