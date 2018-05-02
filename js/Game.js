@@ -1,6 +1,7 @@
 function Game() {
     this.player = null;
     this.floor = [];
+    this.death = [];
     this.level = null;
     
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
@@ -28,23 +29,21 @@ function Game() {
         this.player.init();
         
         this.level = levels.level0;
-        console.log(this.level.grid);
-        console.log(this.level.grid.length);
         for (var i = this.level.grid.length - 1; i >= 0; i--) {
             for (var e = this.level.grid[i].length - 1; e >= 0; e--) {
                 for (var a = this.level.grid[i][e].length - 1; a >= 0; a--) {
-                    
-                    console.log(this.level.grid[i][e].charAt(a))
-                    if (this.level.grid[i][e].charAt(a) != ".") {
+                    if (this.level.grid[i][e].charAt(a) == "*") {
                         var floor = new Floor(this.level.grid[i][e].charAt(a), a, i);
                         floor.init();
                         this.floor.push(floor);
                     };
-                }
-                console.log(this.level.grid[i][e].charAt(1));
-                console.log(this.level.grid[i][e].length);
-            }
-            console.log(this.level.grid[i]);
+                    if (this.level.grid[i][e].charAt(a) == "@") {
+                        var death = new Death(this.level.grid[i][e].charAt(a), a, i);
+                        death.init();
+                        this.death.push(death);
+                    };
+                };
+            };
         };
         /*
         var floor = new Floor(600, 20, this.width()/2, this.height()/3*2);
@@ -70,16 +69,6 @@ function Game() {
         var ab = a.getBounds();
         var bb = b.getBounds();
         return {isColliding:ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height,aBounds:ab,bBounds:bb};
-    };
-    this.checkPlayerCollision = function() {
-        for(var i = this.floor.length - 1; i >= 0; i--) {
-            var cr = this.isColliding(this.player.sprite,this.floor[i].sprite);
-            if(cr.isColliding == true) {
-                //console.log(this.isColliding(this.player.sprite,this.floor[0].sprite));
-                this.player.isGrounded = true;
-                this.player.vy = 0;
-            };
-        };
     };
 }
 const game = new Game();

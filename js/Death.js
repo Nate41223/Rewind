@@ -1,4 +1,4 @@
-function Floor(name, gridx, gridy) {
+function Death(name, gridx, gridy) {
     this.sprite = null;
     this.width = 50;
     this.height = 50;
