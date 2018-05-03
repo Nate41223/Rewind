@@ -32,8 +32,9 @@ function Game() {
         keyboard.init();
         
         if(this.level == null){
-            var lvlString = "level" + Math.round(Math.random() * (Object.keys(levels).length - 1) + 1);
-            this.level = levels[lvlString];
+            //var lvlString = "level" + Math.round(Math.random() * (Object.keys(levels).length - 1) + 1);
+            //this.level = levels[lvlString];
+            this.level = levels["level11"];
         };
         
         for (var i = this.level.grid.length - 1; i >= 0; i--) {
