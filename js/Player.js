@@ -78,13 +78,11 @@ function Player(name, gridx, gridy) {
                 case "dead":
                     if(this.deadFrame >= 0) {
                         var i = game.playerStates[this.deadFrame];
-                        console.log(i);
                         this.MoveRotation = i.r;
                         this.x = i.x;
                         this.y = i.y;
                         this.sprite.x = this.x;
                         this.sprite.y = this.y;
-                        console.log(i);
                         this.deadFrame--;
                     } else {
                         this.state = STATE_IDLE;
@@ -98,8 +96,12 @@ function Player(name, gridx, gridy) {
                     winText.x = game.width()/2;
                     winText.y = game.height()/2;
                     game.stage().addChild(winText);
-                    if(this.resetTimer > 0) this.resetTimer--;
-                        else location.reload();
+                    if(this.resetTimer > 0) {
+                        this.resetTimer--;
+                    } else {
+                        this.resetTimer = 30;
+                        location.reload();
+                    }
                     break;
         };
         this.sprite.rotation = this.MoveRotation;
