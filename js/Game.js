@@ -8,6 +8,9 @@ function Game() {
     this.playerStates = [];
     this.playerStateMax = 150;
     this.level = null;
+    this.timerMinutes = 0;
+    this.timerSeconds = 0;
+    this.timerMilliSeconds = 0;
     
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
     document.body.append(pixi.view);
