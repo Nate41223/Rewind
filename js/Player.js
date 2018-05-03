@@ -4,8 +4,8 @@ function Player() {
     this.y = game.height()/2;
     this.startX = game.width()/2;
     this.startY = game.height()/2;
-    this.width = 30;
-    this.height = 30;
+    this.width = 50; // 50px
+    this.height = 18; // 18px
     this.vx = 0;
     this.vy = 0;
     this.vMax = 8;
@@ -18,11 +18,11 @@ function Player() {
     const STATE_DEAD = "dead";
     
     this.init = function() {
-        this.sprite = new PIXI.Sprite.fromImage("imgs/Player.png");
+        this.sprite = new PIXI.Sprite.fromImage("imgs/Dog.png");
         this.sprite.x = this.x;
         this.sprite.y = this.y;
         this.sprite.anchor.set(.5);
-        this.sprite.scale.set(5);
+        //this.sprite.scale.set(5);
         this.sprite.width = this.width;
         this.sprite.height = this.height;
         game.stage().addChild(this.sprite);
@@ -77,6 +77,16 @@ function Player() {
         };
         for(var i = game.death.length - 1; i >= 0; i--) {
             var cr = game.isColliding(this.sprite,game.death[i].sprite);
+            if(cr.isColliding == true) {
+                this.state = STATE_DEAD;
+                this.x = this.startX;
+                this.y = this.startY;
+                this.vx = 0;
+                this.vy = 0;
+            };
+        };
+        for(var i = game.cake.length - 1; i >= 0; i--) {
+            var cr = game.isColliding(this.sprite,game.cake[i].sprite);
             if(cr.isColliding == true) {
                 this.state = STATE_DEAD;
                 this.x = this.startX;

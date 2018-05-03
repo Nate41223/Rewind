@@ -3,6 +3,7 @@ function Game() {
     this.floor = [];
     this.wall = [];
     this.death = [];
+    this.cake = [];
     this.level = null;
     
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
@@ -32,7 +33,7 @@ function Game() {
         for (var i = this.level.grid.length - 1; i >= 0; i--) {
             for (var e = this.level.grid[i].length - 1; e >= 0; e--) {
                 for (var a = this.level.grid[i][e].length - 1; a >= 0; a--) {
-                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@") {
+                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@" || this.level.grid[i][e].charAt(a) == "!") {
                         var floor = new Floor(this.level.grid[i][e].charAt(a), a, i);
                         floor.init();
                         this.floor.push(floor);
@@ -46,6 +47,11 @@ function Game() {
                         var death = new Death(this.level.grid[i][e].charAt(a), a, i);
                         death.init();
                         this.death.push(death);
+                    };
+                    if (this.level.grid[i][e].charAt(a) == "!") {
+                        var cake = new Cake(this.level.grid[i][e].charAt(a), a, i);
+                        cake.init();
+                        this.cake.push(cake);
                     };
                 };
             };
