@@ -6,7 +6,7 @@ function Cake(name, gridx, gridy) {
     this.y = gridy * 50 + 50/2;
     
     this.init = function() {
-        this.sprite = new PIXI.Sprite.fromImage("imgs/cake.png");
+        this.sprite = new PIXI.Sprite.fromImage("imgs/Cake.png");
         this.sprite.height = this.height;
         this.sprite.width = this.width;
         this.sprite.x = this.x;
