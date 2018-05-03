@@ -96,6 +96,7 @@ function Game() {
                 this.playerStates.push({x:this.player.x,y:this.player.y,r:this.player.MoveRotation});
             }
         }
+        this.timerUpdate(pixi.ticker.elapsedMS);
     });
     
     // returns delta time in seconds
@@ -108,6 +109,17 @@ function Game() {
         var ab = a.getBounds();
         var bb = b.getBounds();
         return {isColliding:ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height,aBounds:ab,bBounds:bb};
+    };
+    this.timerUpdate = (time)=>{
+        this.timerMilliSeconds += time;
+        if(this.timerMilliSeconds >= 1000){
+            this.timerSeconds += 1;
+            this.timerMilliSeconds -= 1000;
+        }
+        if(this.timerSeconds >= 60){
+            this.timerMinutes += 1;
+            this.timerSeconds -= 60;
+        }
     };
 }
 const game = new Game();
