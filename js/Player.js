@@ -10,6 +10,7 @@ function Player(name, gridx, gridy) {
     this.vy = 0;
     this.vMax = 8;
     this.vScaler = .3;
+    this.MoveRotation = 0;
     this.speed = 2;
     this.deadFrame = 0;
     this.isGrounded = false;
@@ -23,12 +24,12 @@ function Player(name, gridx, gridy) {
         this.sprite = new PIXI.Sprite.fromImage("imgs/Dog.png");
         this.sprite.x = this.x;
         this.sprite.y = this.y;
+        this.sprite.rotation = this.MoveRotation;
         this.sprite.anchor.set(.5);
         this.sprite.width = this.width;
         this.sprite.height = this.height;
     };
     this.update = function(dt, dts) {
-        
         switch (this.state) {
                 case "idle":
                     
@@ -42,10 +43,22 @@ function Player(name, gridx, gridy) {
                 case "walk":
                     var moveH = 0;
                     var moveV = 0;
-                    if(keys.a.isDown) moveH--;
-                    if(keys.d.isDown) moveH++;
-                    if(keys.w.isDown) moveV--;
-                    if(keys.s.isDown) moveV++;
+                    if(keys.a.isDown) {
+                        moveH--;
+                        this.MoveRotation = 0;
+                    }
+                    if(keys.d.isDown) {
+                        moveH++;
+                        this.MoveRotation = 1*Math.PI;
+                    }
+                    if(keys.w.isDown) {
+                        moveV--;
+                        this.MoveRotation = .55*Math.PI;
+                    }
+                    if(keys.s.isDown) {
+                        moveV++;
+                        this.MoveRotation = 1.55*Math.PI;
+                    }
                 
                     this.vx += moveH*this.speed*dt;
                     this.vy += moveV*this.speed*dt;
@@ -84,6 +97,7 @@ function Player(name, gridx, gridy) {
                     game.stage().addChild(winText);
                     break;
         };
+        this.sprite.rotation = this.MoveRotation;
     };
     this.checkPlayerCollision = function(dt) {
         for(var i = game.wall.length - 1; i >= 0; i--) {
