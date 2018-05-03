@@ -4,8 +4,8 @@ function Player(name, gridx, gridy) {
     this.y = gridy * 50 + 50/2;
     this.startX = game.width()/2;
     this.startY = game.height()/2;
-    this.width = 50; // 50px
-    this.height = 18; // 18px
+    this.width = 30; // 50px
+    this.height = 13; // 18px
     this.vx = 0;
     this.vy = 0;
     this.vMax = 8;
