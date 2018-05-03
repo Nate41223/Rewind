@@ -30,11 +30,15 @@ function Game() {
     this.init = function() {
         keyboard.init();
         
-        this.level = levels.level0;
+        if(this.level == null){
+            var lvlString = "level" + Math.round(Math.random() * (Object.keys(levels).length - 1) + 1);
+            this.level = levels[lvlString];
+        };
+        
         for (var i = this.level.grid.length - 1; i >= 0; i--) {
             for (var e = this.level.grid[i].length - 1; e >= 0; e--) {
                 for (var a = this.level.grid[i][e].length - 1; a >= 0; a--) {
-                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@" || this.level.grid[i][e].charAt(a) == "!") {
+                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@" || this.level.grid[i][e].charAt(a) == "!" || this.level.grid[i][e].charAt(a) == "$") {
                         var floor = new Floor(this.level.grid[i][e].charAt(a), a, i);
                         floor.init();
                         this.floor.push(floor);
@@ -54,12 +58,14 @@ function Game() {
                         cake.init();
                         this.cake.push(cake);
                     };
+                    if (this.level.grid[i][e].charAt(a) == "$") {
+                        this.player = new Player(this.level.grid[i][e].charAt(a), a, i);
+                        this.player.init();
+                    };
                 };
             };
         };
-        
-        this.player = new Player();
-        this.player.init();
+        this.stage().addChild(this.player.sprite);
         /*
         var floor = new Floor(600, 20, this.width()/2, this.height()/3*2);
         floor.init();

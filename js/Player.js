@@ -1,7 +1,7 @@
-function Player() {
+function Player(name, gridx, gridy) {
     this.sprite = null;
-    this.x = game.width()/2;
-    this.y = game.height()/2;
+    this.x = gridx * 50 + 50/2;
+    this.y = gridy * 50 + 50/2;
     this.startX = game.width()/2;
     this.startY = game.height()/2;
     this.width = 50; // 50px
@@ -24,10 +24,8 @@ function Player() {
         this.sprite.x = this.x;
         this.sprite.y = this.y;
         this.sprite.anchor.set(.5);
-        //this.sprite.scale.set(5);
         this.sprite.width = this.width;
         this.sprite.height = this.height;
-        game.stage().addChild(this.sprite);
     };
     this.update = function(dt, dts) {
         
