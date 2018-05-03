@@ -6,7 +6,7 @@ function Game() {
     this.cake = [];
     this.turrets = [];
     this.playerStates = [];
-    this.playerStateMax = 200;
+    this.playerStateMax = 150;
     this.level = null;
     
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
@@ -88,9 +88,9 @@ function Game() {
         if( this.player.state != "dead") {
             if(this.playerStates.length >= this.playerStateMax) {
                 this.playerStates.splice(0, 1);
-                this.playerStates.push({x:this.player.x,y:this.player.y});
+                this.playerStates.push({x:this.player.x,y:this.player.y,r:this.player.MoveRotation});
             } else {
-                this.playerStates.push({x:this.player.x,y:this.player.y});
+                this.playerStates.push({x:this.player.x,y:this.player.y,r:this.player.MoveRotation});
             }
         }
     });

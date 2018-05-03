@@ -78,6 +78,8 @@ function Player(name, gridx, gridy) {
                 case "dead":
                     if(this.deadFrame >= 0) {
                         var i = game.playerStates[this.deadFrame];
+                        console.log(i);
+                        this.MoveRotation = i.r;
                         this.x = i.x;
                         this.y = i.y;
                         this.sprite.x = this.x;
