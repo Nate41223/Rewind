@@ -15,6 +15,12 @@ function Game() {
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
     document.body.append(pixi.view);
     
+    this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize: 24,
+                                                                                                               fill: 0xff1010, align: 'right'});
+    pixi.stage.addChild(this.timerText);
+    this.timerText.x = 50;
+    this.timerText.y = 50;
+    
     // returns the stage the game is running in
     this.stage = ()=> {
         return pixi.stage;
@@ -97,6 +103,7 @@ function Game() {
             }
         }
         this.timerUpdate(pixi.ticker.elapsedMS);
+        console.log(this.timerText.text);
     });
     
     // returns delta time in seconds
@@ -120,6 +127,8 @@ function Game() {
             this.timerMinutes += 1;
             this.timerSeconds -= 60;
         }
+        this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize:24,
+                                                                                                               fill: 0xff1010, align: 'right'}); 
     };
 }
 const game = new Game();
