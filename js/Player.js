@@ -15,6 +15,7 @@ function Player(name, gridx, gridy) {
     this.deadFrame = 0;
     this.isGrounded = false;
     this.state = "idle";
+    this.resetTimer = 30;
     const STATE_IDLE = "idle";
     const STATE_WALK = "walk";
     const STATE_DEAD = "dead";
@@ -95,6 +96,8 @@ function Player(name, gridx, gridy) {
                     winText.x = game.width()/2;
                     winText.y = game.height()/2;
                     game.stage().addChild(winText);
+                    if(this.resetTimer > 0) this.resetTimer--;
+                        else location.reload();
                     break;
         };
         this.sprite.rotation = this.MoveRotation;
