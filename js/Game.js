@@ -4,6 +4,8 @@ function Game() {
     this.wall = [];
     this.death = [];
     this.cake = [];
+    this.playerStates = [];
+    this.playerStateMax = 200;
     this.level = null;
     
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
@@ -27,7 +29,6 @@ function Game() {
     // constructor
     this.init = function() {
         keyboard.init();
-        
         
         this.level = levels.level0;
         for (var i = this.level.grid.length - 1; i >= 0; i--) {
@@ -68,9 +69,15 @@ function Game() {
     
     // Game loop
     pixi.ticker.add((dt)=> {
-        
         this.player.update(dt, this.getS());
-        
+        if( this.player.state != "dead") {
+            if(this.playerStates.length >= this.playerStateMax) {
+                this.playerStates.splice(0, 1);
+                this.playerStates.push({x:this.player.x,y:this.player.y});
+            } else {
+                this.playerStates.push({x:this.player.x,y:this.player.y});
+            }
+        }
     });
     
     // returns delta time in seconds

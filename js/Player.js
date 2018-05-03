@@ -11,11 +11,13 @@ function Player() {
     this.vMax = 8;
     this.vScaler = .3;
     this.speed = 2;
+    this.deadFrame = 0;
     this.isGrounded = false;
     this.state = "idle";
     const STATE_IDLE = "idle";
     const STATE_WALK = "walk";
     const STATE_DEAD = "dead";
+    const STATE_WINN = "winn";
     
     this.init = function() {
         this.sprite = new PIXI.Sprite.fromImage("imgs/Dog.png");
@@ -62,11 +64,28 @@ function Player() {
                     this.checkPlayerCollision(dt);
                     break;
                 case "dead":
-                    this.state = STATE_IDLE;
+                    if(this.deadFrame >= 0) {
+                        var i = game.playerStates[this.deadFrame];
+                        this.x = i.x;
+                        this.y = i.y;
+                        this.sprite.x = this.x;
+                        this.sprite.y = this.y;
+                        console.log(i);
+                        this.deadFrame--;
+                    } else {
+                        this.state = STATE_IDLE;
+                        game.playerStates = [];
+                    };
+                    //this.state = STATE_IDLE;
+                    break;
+                case "winn":
+                    var winText = new PIXI.Text("You WIN!!");
+                    winText.anchor.set(.5);
+                    winText.x = game.width()/2;
+                    winText.y = game.height()/2;
+                    game.stage().addChild(winText);
                     break;
         };
-        
-        console.log(this.state);
     };
     this.checkPlayerCollision = function(dt) {
         for(var i = game.wall.length - 1; i >= 0; i--) {
@@ -83,12 +102,13 @@ function Player() {
                 this.y = this.startY;
                 this.vx = 0;
                 this.vy = 0;
+                this.deadFrame = game.playerStates.length - 1;
             };
         };
         for(var i = game.cake.length - 1; i >= 0; i--) {
             var cr = game.isColliding(this.sprite,game.cake[i].sprite);
             if(cr.isColliding == true) {
-                this.state = STATE_DEAD;
+                this.state = STATE_WINN;
                 this.x = this.startX;
                 this.y = this.startY;
                 this.vx = 0;
