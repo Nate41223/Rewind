@@ -16,7 +16,7 @@ function Game() {
     document.body.append(pixi.view);
     
     this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize: 24,
-                                                                                                               fill: 0xff1010, align: 'right'});
+                                                                                                               fill: 0xffffff, align: 'right'});
     pixi.stage.addChild(this.timerText);
     this.timerText.x = 50;
     this.timerText.y = 50;
@@ -118,14 +118,26 @@ function Game() {
         return {isColliding:ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height,aBounds:ab,bBounds:bb};
     };
     this.timerUpdate = (time)=>{
-        this.timerMilliSeconds += time;
-        if(this.timerMilliSeconds >= 1000){
-            this.timerSeconds += 1;
-            this.timerMilliSeconds -= 1000;
-        }
-        if(this.timerSeconds >= 60){
-            this.timerMinutes += 1;
-            this.timerSeconds -= 60;
+        if(this.player.state == "dead"){
+            this.timerMilliSeconds -= time;
+            if(this.timerMilliSeconds <= 0){
+                this.timerSeconds -= 1;
+                this.timerMilliSeconds += 1000;
+            }
+            if(this.timerSeconds <= 0){
+                this.timerMinutes -= 1;
+                this.timerSeconds += 60;
+            }
+        } else {
+            this.timerMilliSeconds += time;
+            if(this.timerMilliSeconds >= 1000){
+                this.timerSeconds += 1;
+                this.timerMilliSeconds -= 1000;
+            }
+            if(this.timerSeconds >= 60){
+                this.timerMinutes += 1;
+                this.timerSeconds -= 60;
+            }
         }
         this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize:24,
                                                                                                                fill: 0xff1010, align: 'right'}); 
