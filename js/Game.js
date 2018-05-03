@@ -4,6 +4,7 @@ function Game() {
     this.wall = [];
     this.death = [];
     this.cake = [];
+    this.turrets = [];
     this.playerStates = [];
     this.playerStateMax = 200;
     this.level = null;
@@ -38,7 +39,7 @@ function Game() {
         for (var i = this.level.grid.length - 1; i >= 0; i--) {
             for (var e = this.level.grid[i].length - 1; e >= 0; e--) {
                 for (var a = this.level.grid[i][e].length - 1; a >= 0; a--) {
-                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@" || this.level.grid[i][e].charAt(a) == "!" || this.level.grid[i][e].charAt(a) == "$") {
+                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@" || this.level.grid[i][e].charAt(a) == "!" || this.level.grid[i][e].charAt(a) == "$" || this.level.grid[i][e].charAt(a) == "$") {
                         var floor = new Floor(this.level.grid[i][e].charAt(a), a, i);
                         floor.init();
                         this.floor.push(floor);
@@ -63,8 +64,9 @@ function Game() {
                         this.player.init();
                     };
                     if (this.level.grid[i][e].charAt(a) == "#") {
-                        this.player = new turret(this.level.grid[i][e].charAt(a), a, i);
-                        this.player.init();
+                        var turret = new Turret(this.level.grid[i][e].charAt(a), a, i);
+                        turret.init();
+                        this.turrets.push(turret)
                     };
                 };
             };
@@ -80,6 +82,9 @@ function Game() {
     // Game loop
     pixi.ticker.add((dt)=> {
         this.player.update(dt, this.getS());
+        for (var t = this.turrets.length - 1; t >= 0; t-- ){
+            this.turrets[t].update(this.player.x, this.player.y);
+        }
         if( this.player.state != "dead") {
             if(this.playerStates.length >= this.playerStateMax) {
                 this.playerStates.splice(0, 1);
