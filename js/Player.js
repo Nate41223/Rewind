@@ -10,7 +10,7 @@ function Player() {
     this.vy = 0;
     this.vMax = 8;
     this.vScaler = .3;
-    this.rotationAngle = 0;
+    this.MoveRotation = 0;
     this.speed = 2;
     this.deadFrame = 0;
     this.isGrounded = false;
@@ -24,7 +24,7 @@ function Player() {
         this.sprite = new PIXI.Sprite.fromImage("imgs/Dog.png");
         this.sprite.x = this.x;
         this.sprite.y = this.y;
-        this.sprite.rotation = this.rotationAngle;
+        this.sprite.rotation = this.MoveRotation;
         this.sprite.anchor.set(.5);
         //this.sprite.scale.set(5);
         this.sprite.width = this.width;
@@ -32,7 +32,6 @@ function Player() {
         game.stage().addChild(this.sprite);
     };
     this.update = function(dt, dts) {
-        console.log(this.rotationAngle);
         switch (this.state) {
                 case "idle":
                     
@@ -48,15 +47,19 @@ function Player() {
                     var moveV = 0;
                     if(keys.a.isDown) {
                         moveH--;
+                        this.MoveRotation = 0;
                     }
                     if(keys.d.isDown) {
                         moveH++;
+                        this.MoveRotation = 1*Math.PI;
                     }
                     if(keys.w.isDown) {
                         moveV--;
+                        this.MoveRotation = .55*Math.PI;
                     }
                     if(keys.s.isDown) {
                         moveV++;
+                        this.MoveRotation = 1.55*Math.PI;
                     }
                 
                     this.vx += moveH*this.speed*dt;
@@ -96,6 +99,7 @@ function Player() {
                     game.stage().addChild(winText);
                     break;
         };
+        this.sprite.rotation = this.MoveRotation;
     };
     this.checkPlayerCollision = function(dt) {
         for(var i = game.wall.length - 1; i >= 0; i--) {
