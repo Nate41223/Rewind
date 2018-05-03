@@ -62,6 +62,10 @@ function Game() {
                         this.player = new Player(this.level.grid[i][e].charAt(a), a, i);
                         this.player.init();
                     };
+                    if (this.level.grid[i][e].charAt(a) == "#") {
+                        this.player = new turret(this.level.grid[i][e].charAt(a), a, i);
+                        this.player.init();
+                    };
                 };
             };
         };
