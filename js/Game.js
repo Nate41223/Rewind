@@ -39,7 +39,7 @@ function Game() {
         for (var i = this.level.grid.length - 1; i >= 0; i--) {
             for (var e = this.level.grid[i].length - 1; e >= 0; e--) {
                 for (var a = this.level.grid[i][e].length - 1; a >= 0; a--) {
-                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@" || this.level.grid[i][e].charAt(a) == "!" || this.level.grid[i][e].charAt(a) == "$" || this.level.grid[i][e].charAt(a) == "$") {
+                    if (this.level.grid[i][e].charAt(a) == "." || this.level.grid[i][e].charAt(a) == "@" || this.level.grid[i][e].charAt(a) == "!" || this.level.grid[i][e].charAt(a) == "#" || this.level.grid[i][e].charAt(a) == "$") {
                         var floor = new Floor(this.level.grid[i][e].charAt(a), a, i);
                         floor.init();
                         this.floor.push(floor);
