@@ -17,9 +17,6 @@ function Game() {
     
     this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize: 24,
                                                                                                                fill: 0xffffff, align: 'right'});
-    pixi.stage.addChild(this.timerText);
-    this.timerText.x = 50;
-    this.timerText.y = 50;
     
     // returns the stage the game is running in
     this.stage = ()=> {
@@ -81,6 +78,9 @@ function Game() {
             };
         };
         this.stage().addChild(this.player.sprite);
+        this.stage().addChild(this.timerText);
+        this.timerText.x = 0;
+        this.timerText.y = 0;
         /*
         var floor = new Floor(600, 20, this.width()/2, this.height()/3*2);
         floor.init();
@@ -139,8 +139,8 @@ function Game() {
                 this.timerSeconds -= 60;
             }
         }
-        this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize:24,
-                                                                                                               fill: 0xff1010, align: 'right'}); 
+        this.timerText.text = this.timerMinutes + ":" + this.timerSeconds + ":" + Math.floor(this.timerMilliSeconds); 
+        
     };
 }
 const game = new Game();
