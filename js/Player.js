@@ -9,7 +9,7 @@ function Player(name, gridx, gridy) {
     this.vx = 0;
     this.vy = 0;
     this.vMax = 6;
-    this.vScaler = .4;
+    this.vScaler = .3;
     this.MoveRotation = 0;
     this.speed = 1;
     this.deadFrame = 0;

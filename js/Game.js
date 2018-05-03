@@ -15,8 +15,7 @@ function Game() {
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
     document.body.append(pixi.view);
     
-    this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize: 24,
-                                                                                                               fill: 0xffffff, align: 'right'});
+    this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize: 24,fill: 0xffffff, align: 'right'});
     
     // returns the stage the game is running in
     this.stage = ()=> {
