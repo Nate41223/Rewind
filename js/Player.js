@@ -8,7 +8,7 @@ function Player(name, gridx, gridy) {
     this.height = 13; // 18px
     this.vx = 0;
     this.vy = 0;
-    this.vMax = 8;
+    this.vMax = 6;
     this.vScaler = .4;
     this.MoveRotation = 0;
     this.speed = 1;
