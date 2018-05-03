@@ -8,9 +8,15 @@ function Game() {
     this.playerStates = [];
     this.playerStateMax = 150;
     this.level = null;
+    this.timerMinutes = 0;
+    this.timerSeconds = 0;
+    this.timerMilliSeconds = 0;
     
     const pixi = new PIXI.Application({width:1000,height:600,backgroundColor:0x82b1ff});
     document.body.append(pixi.view);
+    
+    this.timerText = new PIXI.Text(this.timerMinutes + ":" + this.timerSeconds + ":" + this.timerMilliSeconds, {fontFamily: 'Arial', fontSize: 24,
+                                                                                                               fill: 0xffffff, align: 'right'});
     
     // returns the stage the game is running in
     this.stage = ()=> {
@@ -72,6 +78,9 @@ function Game() {
             };
         };
         this.stage().addChild(this.player.sprite);
+        this.stage().addChild(this.timerText);
+        this.timerText.x = 0;
+        this.timerText.y = 0;
         /*
         var floor = new Floor(600, 20, this.width()/2, this.height()/3*2);
         floor.init();
@@ -93,6 +102,7 @@ function Game() {
                 this.playerStates.push({x:this.player.x,y:this.player.y,r:this.player.MoveRotation});
             }
         }
+        this.timerUpdate(pixi.ticker.elapsedMS);
     });
     
     // returns delta time in seconds
@@ -105,6 +115,31 @@ function Game() {
         var ab = a.getBounds();
         var bb = b.getBounds();
         return {isColliding:ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height,aBounds:ab,bBounds:bb};
+    };
+    this.timerUpdate = (time)=>{
+        if(this.player.state == "dead"){
+            this.timerMilliSeconds -= time;
+            if(this.timerMilliSeconds <= 0){
+                this.timerSeconds -= 1;
+                this.timerMilliSeconds += 1000;
+            }
+            if(this.timerSeconds <= 0){
+                this.timerMinutes -= 1;
+                this.timerSeconds += 60;
+            }
+        } else {
+            this.timerMilliSeconds += time;
+            if(this.timerMilliSeconds >= 1000){
+                this.timerSeconds += 1;
+                this.timerMilliSeconds -= 1000;
+            }
+            if(this.timerSeconds >= 60){
+                this.timerMinutes += 1;
+                this.timerSeconds -= 60;
+            }
+        }
+        this.timerText.text = this.timerMinutes + ":" + this.timerSeconds + ":" + Math.floor(this.timerMilliSeconds); 
+        
     };
 }
 const game = new Game();
