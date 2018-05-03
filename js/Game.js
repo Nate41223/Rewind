@@ -103,7 +103,6 @@ function Game() {
             }
         }
         this.timerUpdate(pixi.ticker.elapsedMS);
-        console.log(this.timerText.text);
     });
     
     // returns delta time in seconds
