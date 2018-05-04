@@ -25,7 +25,7 @@ function Turret(name, gridx, gridy) {
         
         this.RXY = Math.atan2(this.RX, this.RY);
         
-        this.RZ = -this.RXY + Math.PI;
+        this.RZ = (this.RXY * 10)  / Math.PI;
         
         this.sprite.rotation = this.RZ;
     };
